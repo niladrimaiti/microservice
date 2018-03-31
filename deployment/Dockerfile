@@ -10,7 +10,7 @@ RUN mkdir -p /home/service && \
 # Install app
 USER service
 
-ADD microservice/target/currency-exchange-service-0.0.1-SNAPSHOT.jar  /opt/currency_exchange.jar
+ADD ./microservice/target/currency-exchange-service-0.0.1-SNAPSHOT.jar  /opt/currency_exchange.jar
 
 EXPOSE 8000
 
