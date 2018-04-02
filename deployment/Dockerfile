@@ -1,6 +1,5 @@
 FROM java:8
 
-WORKDIR /
 
 ADD currency-exchange-service-0.0.1-SNAPSHOT.jar  /opt/
 
