@@ -2,7 +2,7 @@ FROM java:8
 
 WORKDIR /
 
-ADD currency-exchange-service-0.0.1-SNAPSHOT.jar  currency_exchange.jar
+ADD currency-exchange-service-0.0.1-SNAPSHOT.jar  /opt/
 
 EXPOSE 8000
 
