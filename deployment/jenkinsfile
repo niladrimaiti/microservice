@@ -1,0 +1,60 @@
+DOCKER_REPOSITORY_NAME = "ecr";
+DOCKER_IMAGE_NAME = "379698354871.dkr.ecr.us-west-2.amazonaws.com/$DOCKER_REPOSITORY_NAME"
+
+node{
+checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/niladrimaiti/microservice.git']]])
+
+stage 'Compile and test'
+    echo "Output of NR environment values"
+    def MVN_HOME = tool name: 'maven', type: 'hudson.tasks.Maven$MavenInstallation'
+    env.JAVA_HOME = tool name: 'java8', type: 'hudson.model.JDK'
+    env.PATH = "$MVN_HOME/bin:$env.PATH"
+      sh "mvn -B clean verify package"
+stage 'Build and tag image'
+    buildDocker()
+    
+
+stage 'Push to AWS ECR'
+  pushImage()   
+  
+stage 'Update service'
+ updateService()    
+}
+
+// Builds and tags the image
+def buildDocker() {
+ // sh "docker build . -f ./deployment/Dockerfile -t  $DOCKER_IMAGE_NAME:currency"
+  sh "docker build  -t  $DOCKER_IMAGE_NAME:currency ."
+ // sh "docker tag --force=true $DOCKER_IMAGE_NAME:currency $DOCKER_IMAGE_NAME:currency"
+}
+
+// Authenticates the user to ECR repo. Pushes the image there.
+def pushImage() {
+  println "Making sure that the ECR exists for $DOCKER_REPOSITORY_NAME"
+  try {
+    sh "aws --region us-west-2 ecr create-repository --repository-name $DOCKER_REPOSITORY_NAME"
+  } catch (all) {
+    // Ignore
+  }
+  println "calling AWS for docker login"
+  def temp = File.createTempFile('temp', '.txt')
+  sh "aws ecr get-login --no-include-email --region us-west-2 > $temp.absolutePath"
+  sh "chmod u+x $temp.absolutePath"
+  exitValue = sh "$temp.absolutePath"
+  if (exitValue) {
+    println "Got error from aws cli: " + exitValue + "\n" + loadFile("$temp.absolutePath")
+    throw new Exception()
+  }
+
+  sh "docker push $DOCKER_IMAGE_NAME:currency"
+}
+
+def updateService(){
+    echo "HELLO"
+    dir("deployment") {
+        docker.image('379698354871.dkr.ecr.us-west-2.amazonaws.com/test/nodejs-build-tools:latest').inside {
+        cmd=/node test1.js/;
+        sh cmd
+        }    
+    }    
+}
