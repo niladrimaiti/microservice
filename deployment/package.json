@@ -1,0 +1,20 @@
+{
+  "name": "niladri-ecs-deployer",
+  "version": "0.0.0",
+  "description": "Script for configuring my Microservices on ECS.",
+  "scripts": {
+    "setup-dev": "node setup-aws.js dev",
+    "setup-prod": "node setup-aws.js prod"
+  },
+  "repository": "",
+  "author": "Niladri",
+  "license": "Commercial",
+  "dependencies": {
+    "aws-sdk": "*",
+    "bluebird": "*"
+  },
+
+  "engines": {
+    "node": "4.x"
+  }
+}  
