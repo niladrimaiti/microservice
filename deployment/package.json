@@ -10,7 +10,9 @@
   "author": "Niladri",
   "license": "Commercial",
   "dependencies": {
-    "aws-sdk": "*"
+    "aws-sdk": "*",
+    "node-deploy-tools": "git+ssh://git@github.com/FinnairOyj/node-deploy-tools.git#1.1.15",
+    "bluebird": "*"
   },
 
   "engines": {
