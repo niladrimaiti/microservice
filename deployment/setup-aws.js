@@ -114,7 +114,7 @@ const appInstances = {
 
 const apps = {
 
-    "CustomerService" : function(successCallback, appParams, instanceParams) {
+    "currency" : function(successCallback, appParams, instanceParams) {
         cfutil.findEcsCluster(function(stackOutputs) {
             instanceParams.ECSCluster = stackOutputs.ECSClusterName;
             instanceParams.ElbSG = stackOutputs.ElbSecurityGroupName;
