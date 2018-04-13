@@ -3,9 +3,9 @@
 // How to setup AWS SDK credentials from js: https://aws.amazon.com/sdk-for-node-js/#Configure
 
 const AWS = require('aws-sdk');
-process.env.AWS_ACCESS_KEY_ID = 'AKIAIDEVCVB7VZSSRNGQ';
-process.env.AWS_SECRET_ACCESS_KEY = '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';
-process.env.AWS_REGION = 'us-west-2';
+//process.env.AWS_ACCESS_KEY_ID = 'AKIAIDEVCVB7VZSSRNGQ';
+//process.env.AWS_SECRET_ACCESS_KEY = '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';
+//process.env.AWS_REGION = 'us-west-2';
 AWS.config.region = process.env.AWS_REGION ? process.env.AWS_REGION : 'us-west-2';
 const cfutil = require('./cloudformation-util.js')
 const ecsutil = require('./ecs-util.js')
