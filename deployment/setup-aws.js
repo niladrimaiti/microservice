@@ -48,7 +48,7 @@ console.log("Target app: " + targetAppName);
 
 const appInstances = {
 
-    "CurrencyService" : {
+    "currency" : {
         "stackName" : "currency-service-" + environmentName,
         "DNSServiceName" : "currency",
         "mainContainerName" : "CurrencyService",
